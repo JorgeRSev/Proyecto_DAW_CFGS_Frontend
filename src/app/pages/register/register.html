@@ -1,0 +1,44 @@
+<div class="register-container">
+
+  <h2>Registro</h2>
+
+  <!-- PASO 1: USUARIO -->
+  <form *ngIf="step === 1" (ngSubmit)="nextStep()">
+
+    <h3>Datos de usuario</h3>
+    <input type="text" placeholder="Nombre" [(ngModel)]="nombre" name="nombre" required/>
+
+    <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required/>
+
+    <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required/>
+
+    <label class="checkbox">
+      <input type="checkbox" [(ngModel)]="registrarMascota" name="registrarMascota"/>
+      Quiero registrar una mascota
+    </label>
+    <button type="submit">Continuar</button>
+  </form>
+
+  /*
+    ****** ACTUALIZAR NGIF, ESTÁ DEPRECADO
+  */
+
+  <form *ngIf="step === 2" (ngSubmit)="onSubmit()">
+
+    <h3>Datos de mascota</h3>
+    <input type="text" placeholder="Nombre mascota" [(ngModel)]="nombreMascota" name="nombreMascota"/>
+
+    <input type="text" placeholder="Raza" [(ngModel)]="raza" name="raza"/>
+
+    <input type="number" placeholder="Edad" [(ngModel)]="edad" name="edad"/>
+
+    <textarea placeholder="Observaciones" [(ngModel)]="observaciones" name="observaciones"></textarea>
+
+    <div class="buttons">
+      <button type="button" (click)="backStep()">Volver</button>
+      <button type="submit">Finalizar registro</button>
+    </div>
+
+  </form>
+
+</div>
