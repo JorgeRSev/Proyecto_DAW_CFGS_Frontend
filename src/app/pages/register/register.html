@@ -2,7 +2,7 @@
 
   <h2>Registro</h2>
 
-  <!-- PASO 1: USUARIO -->
+  // ****** ACTUALIZAR NGIF, ESTÁ DEPRECADO
   <form *ngIf="step === 1" (ngSubmit)="nextStep()">
 
     <h3>Datos de usuario</h3>
@@ -19,10 +19,7 @@
     <button type="submit">Continuar</button>
   </form>
 
-  /*
-    ****** ACTUALIZAR NGIF, ESTÁ DEPRECADO
-  */
-
+    <!-- ****** ACTUALIZAR NGIF, ESTÁ DEPRECADO -->
   <form *ngIf="step === 2" (ngSubmit)="onSubmit()">
 
     <h3>Datos de mascota</h3>

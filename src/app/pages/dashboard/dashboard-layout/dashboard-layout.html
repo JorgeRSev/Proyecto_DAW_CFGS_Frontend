@@ -1,0 +1,42 @@
+<div class="flex h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-gray-900 text-white p-4">
+
+    <nav class="space-y-3">
+
+      <a routerLink="/dashboard/home" class="block hover:bg-gray-700 p-2 rounded">
+        Inicio
+      </a>
+
+      <a routerLink="/dashboard/citas" class="block hover:bg-gray-700 p-2 rounded">
+        Citas
+      </a>
+
+      <a routerLink="/dashboard/mascotas" class="block hover:bg-gray-700 p-2 rounded">
+        Mascotas
+      </a>
+
+      <a routerLink="/dashboard/perfil" class="block hover:bg-gray-700 p-2 rounded">
+        Perfil
+      </a>
+
+      <a routerLink="/dashboard/calendario" class="block hover:bg-gray-700 p-2 rounded">
+        Calendario
+      </a>
+
+    </nav>
+
+    <button
+  (click)="logout()"
+  class="mt-6 w-full bg-red-500 hover:bg-red-600 text-white p-2 rounded">
+  Cerrar sesión
+</button>
+
+  </aside>
+
+  <!-- CONTENIDO -->
+  <main class="flex-1 bg-gray-100 p-6 overflow-auto">
+    <router-outlet></router-outlet>
+  </main>
+</div>

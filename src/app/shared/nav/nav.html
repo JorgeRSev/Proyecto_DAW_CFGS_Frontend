@@ -1,23 +1,52 @@
-<nav class="navbar">
+<nav class="bg-white shadow-md">
 
-  <div class="left">
-    <span class="logo"></span>
-    <span class="brand">PeluPatas</span>
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div
+      class="flex items-center gap-2 font-bold text-xl cursor-pointer"
+      routerLink="/"
+    >
+      PeluPatas
+    </div>
+
+    <div class="hidden md:flex gap-8 font-medium text-gray-700">
+      <a routerLink="/" routerLinkActive="text-blue-500" class="hover:text-blue-500">
+        Inicio
+      </a>
+      <a href="#" class="hover:text-blue-500">
+        Servicios
+      </a>
+      <a href="#" class="hover:text-blue-500">
+        Dónde estamos
+      </a>
+      <a href="#" class="hover:text-blue-500">
+        Contacto
+      </a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      @if (!authService.isLoggedIn()) {
+        <a
+          routerLink="/login"
+          class="text-gray-700 hover:text-blue-500">
+          Login
+        </a>
+        <a
+          routerLink="/register"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Registrarse
+        </a>
+      } @else {
+        <a
+          routerLink="/dashboard"
+          class="text-gray-700 hover:text-blue-500">
+          Perfil
+        </a>
+        <button
+          (click)="logout()"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          Logout
+        </button>
+      }
+    </div>
   </div>
-
-  <div class="center">
-    <a routerLink="/">Home</a>
-    <a routerLink="/servicios">Servicios</a>
-    <a routerLink="/contacto">Contacto</a>
-  </div>
-
-  <div class="right">
-    <a routerLink="/login">
-      <button class="login">Login</button>
-    </a>
-    <a routerLink="/register">
-      <button class="register">Registro</button>
-    </a>
-  </div>
-
 </nav>

@@ -1,0 +1,90 @@
+<div class="flex h-screen bg-gray-100">
+
+  <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
+
+    <div>
+      <div class="p-6 font-bold text-xl border-b">
+        PeluPatas
+      </div>
+
+      <nav class="p-4 space-y-3 text-gray-700">
+        <a routerLink="/dashboard" class="block hover:text-blue-500">
+          Dashboard
+        </a>
+        <a routerLink="/citas" class="block hover:text-blue-500">
+          Mis citas
+        </a>
+        <a routerLink="/mascotas" class="block hover:text-blue-500">
+          Mis mascotas
+        </a>
+        <a routerLink="/calendario" class="block hover:text-blue-500">
+          Calendario
+        </a>
+        <a routerLink="/perfil" class="block hover:text-blue-500">
+          Perfil
+        </a>
+      </nav>
+    </div>
+
+    <button
+      (click)="logout()"
+      class="m-4 bg-red-500 text-white py-2 rounded hover:bg-red-600">
+      Logout
+    </button>
+  </aside>
+
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+      <h2 class="font-semibold text-gray-700">
+        Dashboard
+      </h2>
+      <div class="text-sm text-gray-600">
+        👋 {{ user?.email }}
+      </div>
+    </header>
+
+    <main class="p-6 space-y-6 overflow-y-auto">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h1 class="text-2xl font-bold">
+          Hola, {{ user?.email }} 👋
+        </h1>
+        <p class="text-gray-600 mt-2">
+          Aquí puedes gestionar tus citas y tus mascotas.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded shadow">
+          <p class="text-gray-500">Próximas citas</p>
+          <p class="text-2xl font-bold">0</p>
+        </div>
+
+        <div class="bg-white p-5 rounded shadow">
+          <p class="text-gray-500">Mascotas</p>
+          <p class="text-2xl font-bold">0</p>
+        </div>
+
+        <div class="bg-white p-5 rounded shadow">
+          <p class="text-gray-500">Última visita</p>
+          <p class="text-2xl font-bold">-</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded shadow">
+        <h3 class="font-semibold mb-4">Acciones rápidas</h3>
+        <div class="flex gap-4">
+          <button
+            (click)="goToBooking()"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Pedir cita
+          </button>
+
+          <button
+            class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+            Añadir mascota
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

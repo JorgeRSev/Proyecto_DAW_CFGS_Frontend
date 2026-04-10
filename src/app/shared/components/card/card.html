@@ -1,0 +1,23 @@
+<div class="bg-white rounded-xl shadow-md p-6 flex flex-col justify-between h-full">
+  <div>
+    <h3 class="text-xl font-bold mb-2">
+      {{ title }}
+    </h3>
+
+    <p class="text-2xl font-semibold text-blue-500 mb-4">
+      {{ price }}
+    </p>
+
+    <ul class="text-gray-600 space-y-1 mb-4">
+      @for (f of features; track f) {
+        <li>✔ {{ f }}</li>
+      }
+    </ul>
+  </div>
+
+  <button
+    (click)="action()"
+    class="mt-auto bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
+    {{ buttonText }}
+  </button>
+</div>

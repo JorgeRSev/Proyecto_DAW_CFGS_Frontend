@@ -10,40 +10,33 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrl: './login.css'
 })
 export class Login {
-
   email: string = '';
   password: string = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor( private authService: AuthService, private router: Router) {
+
+  }
 
   onSubmit() {
-  const data = {
-    email: this.email,
-    password: this.password
-  };
+    const data = {
+      email: this.email,
+      password: this.password
+    };
 
-  this.authService.login(data).subscribe({
-    next: (res: any) => {
-
-      if (res.success) {
-
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("usuario", JSON.stringify(res.usuario));
-
-        alert("Login correcto");
-        this.router.navigate(['/']);
-      } else {
-        alert(res.message);
+    this.authService.login(data).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          const token = res.token || res.data?.token || res.access_token;
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("usuario", JSON.stringify(res.usuario));
+          this.router.navigate(['/dashboard']);
+        } else {
+          alert(res.message);
+        }
+      },
+      error: () => {
+        alert("Error servidor");
       }
-
-    },
-    error: () => {
-      alert("Error servidor");
-    }
-  });
-}
-
+    });
+  }
 }

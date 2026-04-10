@@ -3,22 +3,24 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
-  selector: 'app-nav',
+  selector: 'app-dashboard',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './nav.html'
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css'
 })
-export class Nav {
+export class Dashboard {
 
-  user: any = null;
+  user: any;
 
-  constructor(public authService: AuthService) {}
-
-  ngOnInit() {
+  constructor(private authService: AuthService) {
     this.user = this.authService.getUser();
   }
 
   logout() {
     this.authService.logout();
+  }
+
+  goToBooking() {
   }
 }

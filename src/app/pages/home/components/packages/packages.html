@@ -1,0 +1,21 @@
+<section class="py-16 text-center">
+
+  <h2 class="text-3xl font-bold mb-10">
+    Nuestros paquetes
+  </h2>
+
+  <div class="grid gap-8 md:grid-cols-3">
+
+    @for (p of packages; track p.title) {
+      <app-card
+        [title]="p.title"
+        [price]="p.price"
+        [features]="p.features"
+        buttonText="Reservar"
+        [action]="goToBooking.bind(this)">
+      </app-card>
+    }
+
+  </div>
+
+</section>

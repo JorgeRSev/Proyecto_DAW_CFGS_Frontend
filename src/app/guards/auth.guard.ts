@@ -1,5 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 
 export const authGuard: CanActivateFn = () => {
 
@@ -10,10 +11,16 @@ export const authGuard: CanActivateFn = () => {
     router.navigate(['/login']);
     return false;
   }
+
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    if (payload.exp * 1000 < Date.now()) {
+    const payload: any = jwtDecode(token);
+    const isExpired = payload.exp * 1000 < Date.now();
+
+    if (isExpired) {
+
       localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+
       router.navigate(['/login']);
       return false;
     }
@@ -21,6 +28,7 @@ export const authGuard: CanActivateFn = () => {
 
   } catch (error) {
     localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
     router.navigate(['/login']);
     return false;
   }

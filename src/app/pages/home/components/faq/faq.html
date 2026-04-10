@@ -1,0 +1,25 @@
+<section class="py-16">
+
+  <h2 class="text-3xl font-bold text-center mb-10">
+    Preguntas frecuentes
+  </h2>
+
+  <div class="max-w-3xl mx-auto space-y-4">
+
+    @for (faq of faqs; track faq.question) {
+      <details class="bg-white p-4 rounded-lg shadow cursor-pointer">
+
+        <summary class="font-semibold">
+          {{ faq.question }}
+        </summary>
+
+        <p class="mt-2 text-gray-600">
+          {{ faq.answer }}
+        </p>
+
+      </details>
+    }
+
+  </div>
+
+</section>
