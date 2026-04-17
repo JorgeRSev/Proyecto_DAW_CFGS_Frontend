@@ -12,31 +12,38 @@ import { AuthService } from '../../services/auth/auth.service';
 export class Login {
   email: string = '';
   password: string = '';
+  errorMsg: string = '';
 
   constructor( private authService: AuthService, private router: Router) {
-
-  }
+ }
 
   onSubmit() {
-    const data = {
-      email: this.email,
-      password: this.password
-    };
+    this.errorMsg = '';
 
-    this.authService.login(data).subscribe({
+    this.authService.login({email: this.email, password: this.password}).subscribe({
       next: (res: any) => {
         if (res.success) {
-          const token = res.token || res.data?.token || res.access_token;
-          localStorage.setItem("token", res.token);
-          localStorage.setItem("usuario", JSON.stringify(res.usuario));
-          this.router.navigate(['/dashboard']);
+            this.redirectByRol(res.usuario.rol);
         } else {
-          alert(res.message);
+          this.errorMsg = res.message;
         }
       },
       error: () => {
-        alert("Error servidor");
+        this.errorMsg = ("Error servidor");
       }
     });
+  }
+
+  private redirectByRol(rol:string){
+    switch (rol) {
+      case 'admin':
+        this.router.navigate(['/admin']);
+        break;
+      case 'peluquera':
+        this.router.navigate(['/peluquera']);
+        break;
+      default:
+        this.router.navigate(['/dashboard']);
+    }
   }
 }
