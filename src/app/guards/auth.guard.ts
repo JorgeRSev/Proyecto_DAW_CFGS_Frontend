@@ -4,7 +4,6 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../services/auth/auth.service';
 
 export const authGuard: CanActivateFn = () => {
-
   const router = inject(Router);
   const token = localStorage.getItem('token');
 
@@ -24,7 +23,6 @@ export const authGuard: CanActivateFn = () => {
       return false;
     }
     return true;
-
   } catch (error) {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
@@ -36,8 +34,8 @@ export const authGuard: CanActivateFn = () => {
 export const roleGuard = (rolesPermitidos: string[]): CanActivateFn => {
   return () => {
     const authService = inject(AuthService);
-    const router      = inject(Router);
- 
+    const router = inject(Router);
+
     if (authService.hasRol(rolesPermitidos)) {
       return true;
     }
