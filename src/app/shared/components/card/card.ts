@@ -10,6 +10,6 @@ export class Card {
   @Input() price: string = '';
   @Input() features: string[] = [];
   @Input() buttonText: string = '';
-  @Input() popular: boolean = false; // <-- nuevo input
+  @Input() popular: boolean = false;
   @Input() action!: () => void;
 }

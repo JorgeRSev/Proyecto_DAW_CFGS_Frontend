@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: './register.css'
+  styleUrl: './register.css',
 })
 export class Register {
-
   step: number = 1;
 
   nombre: string = '';
@@ -25,15 +25,15 @@ export class Register {
   observaciones: string = '';
 
   errorMsg: string = '';
-
-  private apiUrl = 'http://localhost/pelupatas/backend/src/api/login';
+  guardando: boolean = false;
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
-  nextStep() {
+  nextStep(): void {
+    this.errorMsg = '';
     if (this.registrarMascota) {
       this.step = 2;
     } else {
@@ -41,15 +41,18 @@ export class Register {
     }
   }
 
-  backStep() {
+  backStep(): void {
     this.step = 1;
   }
 
-  onSubmit() {
+  onSubmit(): void {
+    this.errorMsg = '';
+    this.guardando = true;
+
     const body: any = {
       nombre: this.nombre,
       email: this.email,
-      password: this.password
+      password: this.password,
     };
 
     if (this.registrarMascota) {
@@ -57,21 +60,23 @@ export class Register {
         nombre: this.nombreMascota,
         raza: this.raza,
         edad: this.edad,
-        observaciones: this.observaciones
+        observaciones: this.observaciones,
       };
     }
 
-    this.http.post<any>(this.apiUrl, body).subscribe({
+    this.authService.register(body).subscribe({
       next: (res) => {
+        this.guardando = false;
         if (res.success) {
           this.router.navigate(['/login']);
         } else {
-          this.errorMsg = res.message;
+          this.errorMsg = res.message ?? 'Error al registrar el usuario.';
         }
       },
-      error: () => {
-        this.errorMsg = 'Error de conexión con el servidor.';
-      }
+      error: (err) => {
+        this.guardando = false;
+        this.errorMsg = err.error?.message ?? 'Error de conexión con el servidor.';
+      },
     });
   }
 }

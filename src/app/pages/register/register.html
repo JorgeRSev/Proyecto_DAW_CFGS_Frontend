@@ -1,41 +1,410 @@
-<div class="register-container">
-
-  <h2>Registro</h2>
-
-  // ****** ACTUALIZAR NGIF, ESTÁ DEPRECADO
-  <form *ngIf="step === 1" (ngSubmit)="nextStep()">
-
-    <h3>Datos de usuario</h3>
-    <input type="text" placeholder="Nombre" [(ngModel)]="nombre" name="nombre" required/>
-
-    <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required/>
-
-    <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required/>
-
-    <label class="checkbox">
-      <input type="checkbox" [(ngModel)]="registrarMascota" name="registrarMascota"/>
-      Quiero registrar una mascota
-    </label>
-    <button type="submit">Continuar</button>
-  </form>
-
-    <!-- ****** ACTUALIZAR NGIF, ESTÁ DEPRECADO -->
-  <form *ngIf="step === 2" (ngSubmit)="onSubmit()">
-
-    <h3>Datos de mascota</h3>
-    <input type="text" placeholder="Nombre mascota" [(ngModel)]="nombreMascota" name="nombreMascota"/>
-
-    <input type="text" placeholder="Raza" [(ngModel)]="raza" name="raza"/>
-
-    <input type="number" placeholder="Edad" [(ngModel)]="edad" name="edad"/>
-
-    <textarea placeholder="Observaciones" [(ngModel)]="observaciones" name="observaciones"></textarea>
-
-    <div class="buttons">
-      <button type="button" (click)="backStep()">Volver</button>
-      <button type="submit">Finalizar registro</button>
+<div
+  style="
+    min-height: 80vh;
+    background: linear-gradient(135deg, var(--pp-amber-bg) 0%, var(--pp-blue-bg) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  "
+>
+  <div class="pp-card" style="width: 100%; max-width: 440px; padding: 2.5rem">
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      "
+    >
+      <span
+        style="
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--pp-amber);
+          display: inline-block;
+        "
+      ></span>
+      <span
+        style="
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--pp-blue);
+          display: inline-block;
+          margin-left: -3px;
+        "
+      ></span>
+      <span style="font-size: 18px; font-weight: 600; color: var(--pp-text); margin-left: 4px"
+        >PeluPatas</span
+      >
     </div>
 
-  </form>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 1.75rem;
+      "
+    >
+      <div
+        style="
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 600;
+        "
+        [style.background]="step >= 1 ? 'var(--pp-blue)' : 'var(--pp-blue-bg)'"
+        [style.color]="step >= 1 ? '#fff' : 'var(--pp-blue-dark)'"
+      >
+        1
+      </div>
+      <div
+        style="flex: 1; height: 2px; max-width: 60px"
+        [style.background]="step >= 2 ? 'var(--pp-blue)' : 'var(--pp-border)'"
+      ></div>
+      <div
+        style="
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 600;
+        "
+        [style.background]="step >= 2 ? 'var(--pp-blue)' : 'var(--pp-blue-bg)'"
+        [style.color]="step >= 2 ? '#fff' : 'var(--pp-text-muted)'"
+      >
+        2
+      </div>
+    </div>
 
+    @if (step === 1) {
+      <h2
+        style="
+          text-align: center;
+          font-size: 19px;
+          font-weight: 600;
+          color: var(--pp-text);
+          margin-bottom: 4px;
+        "
+      >
+        Crea tu cuenta
+      </h2>
+      <p
+        style="
+          text-align: center;
+          font-size: 13px;
+          color: var(--pp-text-soft);
+          margin-bottom: 1.5rem;
+        "
+      >
+        Paso 1 de 2 — Tus datos personales
+      </p>
+
+      <form (ngSubmit)="nextStep()">
+        <div style="margin-bottom: 0.9rem">
+          <label
+            style="display: block; font-size: 13px; color: var(--pp-text-soft); margin-bottom: 4px"
+            >Nombre completo</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="nombre"
+            name="nombre"
+            required
+            placeholder="Tu nombre"
+            style="
+              width: 100%;
+              padding: 9px 12px;
+              font-size: 14px;
+              border: 1px solid var(--pp-border);
+              border-radius: 8px;
+              background: var(--pp-white);
+              color: var(--pp-text);
+              outline: none;
+            "
+            (focus)="$event.target.style.borderColor = 'var(--pp-blue)'"
+            (blur)="$event.target.style.borderColor = 'var(--pp-border)'"
+          />
+        </div>
+
+        <div style="margin-bottom: 0.9rem">
+          <label
+            style="display: block; font-size: 13px; color: var(--pp-text-soft); margin-bottom: 4px"
+            >Email</label
+          >
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            placeholder="tu@email.com"
+            style="
+              width: 100%;
+              padding: 9px 12px;
+              font-size: 14px;
+              border: 1px solid var(--pp-border);
+              border-radius: 8px;
+              background: var(--pp-white);
+              color: var(--pp-text);
+              outline: none;
+            "
+            (focus)="$event.target.style.borderColor = 'var(--pp-blue)'"
+            (blur)="$event.target.style.borderColor = 'var(--pp-border)'"
+          />
+        </div>
+
+        <div style="margin-bottom: 1.25rem">
+          <label
+            style="display: block; font-size: 13px; color: var(--pp-text-soft); margin-bottom: 4px"
+            >Contraseña</label
+          >
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            placeholder="Mínimo 6 caracteres"
+            style="
+              width: 100%;
+              padding: 9px 12px;
+              font-size: 14px;
+              border: 1px solid var(--pp-border);
+              border-radius: 8px;
+              background: var(--pp-white);
+              color: var(--pp-text);
+              outline: none;
+            "
+            (focus)="$event.target.style.borderColor = 'var(--pp-blue)'"
+            (blur)="$event.target.style.borderColor = 'var(--pp-border)'"
+          />
+        </div>
+
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 12px;
+            border: 1px solid var(--pp-border);
+            border-radius: 8px;
+            background: var(--pp-white);
+            margin-bottom: 1.5rem;
+            font-size: 14px;
+            color: var(--pp-text-soft);
+          "
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="registrarMascota"
+            name="registrarMascota"
+            style="width: 16px; height: 16px; accent-color: var(--pp-blue); cursor: pointer"
+          />
+          Quiero registrar una mascota
+        </label>
+
+        @if (errorMsg) {
+          <div
+            style="
+              background: #fdecea;
+              border: 1px solid #f5adad;
+              border-radius: 8px;
+              padding: 10px 14px;
+              font-size: 13px;
+              color: #7b1e1e;
+              margin-bottom: 1rem;
+            "
+          >
+            {{ errorMsg }}
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="pp-btn-primary"
+          style="width: 100%; padding: 11px; font-size: 15px"
+        >
+          {{ registrarMascota ? 'Continuar' : 'Crear cuenta' }}
+        </button>
+      </form>
+    }
+
+    @if (step === 2) {
+      <h2
+        style="
+          text-align: center;
+          font-size: 19px;
+          font-weight: 600;
+          color: var(--pp-text);
+          margin-bottom: 4px;
+        "
+      >
+        Cuéntanos sobre tu mascota
+      </h2>
+      <p
+        style="
+          text-align: center;
+          font-size: 13px;
+          color: var(--pp-text-soft);
+          margin-bottom: 1.5rem;
+        "
+      >
+        Paso 2 de 2 — Datos de tu peludo (opcional)
+      </p>
+
+      <form (ngSubmit)="onSubmit()">
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 0.9rem"
+        >
+          <div>
+            <label
+              style="
+                display: block;
+                font-size: 13px;
+                color: var(--pp-text-soft);
+                margin-bottom: 4px;
+              "
+              >Nombre</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="nombreMascota"
+              name="nombreMascota"
+              placeholder="Toby"
+              style="
+                width: 100%;
+                padding: 9px 12px;
+                font-size: 14px;
+                border: 1px solid var(--pp-border);
+                border-radius: 8px;
+                background: var(--pp-white);
+                color: var(--pp-text);
+                outline: none;
+              "
+              (focus)="$event.target.style.borderColor = 'var(--pp-blue)'"
+              (blur)="$event.target.style.borderColor = 'var(--pp-border)'"
+            />
+          </div>
+          <div>
+            <label
+              style="
+                display: block;
+                font-size: 13px;
+                color: var(--pp-text-soft);
+                margin-bottom: 4px;
+              "
+              >Raza</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="raza"
+              name="raza"
+              placeholder="Golden Retriever"
+              style="
+                width: 100%;
+                padding: 9px 12px;
+                font-size: 14px;
+                border: 1px solid var(--pp-border);
+                border-radius: 8px;
+                background: var(--pp-white);
+                color: var(--pp-text);
+                outline: none;
+              "
+              (focus)="$event.target.style.borderColor = 'var(--pp-blue)'"
+              (blur)="$event.target.style.borderColor = 'var(--pp-border)'"
+            />
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.9rem">
+          <label
+            style="display: block; font-size: 13px; color: var(--pp-text-soft); margin-bottom: 4px"
+            >Edad (años)</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="edad"
+            name="edad"
+            placeholder="3"
+            min="0"
+            max="30"
+            style="
+              width: 100%;
+              padding: 9px 12px;
+              font-size: 14px;
+              border: 1px solid var(--pp-border);
+              border-radius: 8px;
+              background: var(--pp-white);
+              color: var(--pp-text);
+              outline: none;
+            "
+            (focus)="$event.target.style.borderColor = 'var(--pp-blue)'"
+            (blur)="$event.target.style.borderColor = 'var(--pp-border)'"
+          />
+        </div>
+
+        <div style="margin-bottom: 1.5rem">
+          <label
+            style="display: block; font-size: 13px; color: var(--pp-text-soft); margin-bottom: 4px"
+          >
+            Observaciones <span style="opacity: 0.6">(alergias, carácter...)</span>
+          </label>
+          <textarea
+            [(ngModel)]="observaciones"
+            name="observaciones"
+            rows="3"
+            placeholder="Ej: es muy nervioso con extraños..."
+            style="
+              width: 100%;
+              padding: 9px 12px;
+              font-size: 14px;
+              border: 1px solid var(--pp-border);
+              border-radius: 8px;
+              background: var(--pp-white);
+              color: var(--pp-text);
+              outline: none;
+              resize: vertical;
+            "
+          ></textarea>
+        </div>
+
+        <div style="display: flex; gap: 10px">
+          <button
+            type="button"
+            (click)="backStep()"
+            class="pp-btn-outline"
+            style="flex: 1; padding: 11px"
+          >
+            ← Volver
+          </button>
+          <button
+            type="submit"
+            class="pp-btn-primary"
+            style="flex: 2; padding: 11px; font-size: 15px"
+          >
+            Finalizar registro
+          </button>
+        </div>
+      </form>
+    }
+
+    <p style="text-align: center; font-size: 13px; color: var(--pp-text-soft); margin-top: 1.25rem">
+      ¿Ya tienes cuenta?
+      <a routerLink="/login" style="color: var(--pp-blue); font-weight: 500; text-decoration: none">
+        Inicia sesión
+      </a>
+    </p>
+  </div>
 </div>
