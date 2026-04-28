@@ -1,1 +1,92 @@
 @import "tailwindcss";
+
+:root {
+    --pp-blue: #378ADD;
+    --pp-blue-dark: #185FA5;
+    --pp-blue-navy: #042C53;
+    --pp-blue-soft: #B5D4F4;
+    --pp-blue-bg: #E6F1FB;
+
+    --pp-amber: #EF9F27;
+    --pp-amber-soft: #FAC775;
+    --pp-amber-bg: #FFF4E6;
+    --pp-white: #FDFAF5;
+    --pp-card: #FFFFFF;
+    --pp-border: #B5D4F4;
+    --pp-text: #042C53;
+    --pp-text-soft: #185FA5;
+    --pp-text-muted: #6B90BA;
+}
+
+body {
+    background-color: var(--pp-white);
+    color: var(--pp-text);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.pp-btn-primary {
+    background: var(--pp-blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.pp-btn-primary:hover {
+    background: var(--pp-blue-dark);
+}
+
+.pp-btn-outline {
+    background: transparent;
+    color: var(--pp-blue-dark);
+    border: 1px solid var(--pp-blue);
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.pp-btn-outline:hover {
+    background: var(--pp-blue-bg);
+}
+
+.pp-card {
+    background: var(--pp-card);
+    border: 1px solid var(--pp-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.pp-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.pp-badge-blue {
+    background: var(--pp-blue-bg);
+    color: var(--pp-blue-navy);
+}
+
+.pp-badge-amber {
+    background: var(--pp-amber-bg);
+    color: #633806;
+}
+
+.pp-badge-green {
+    background: #E6F4EA;
+    color: #1A5C2A;
+}
+
+.pp-badge-red {
+    background: #FDECEA;
+    color: #7B1E1E;
+}
