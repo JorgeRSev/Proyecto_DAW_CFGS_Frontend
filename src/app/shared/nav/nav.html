@@ -1,50 +1,89 @@
-<nav class="bg-white shadow-md">
-
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <div
-      class="flex items-center gap-2 font-bold text-xl cursor-pointer"
-      routerLink="/"
-    >
-      PeluPatas
+<nav style="background: var(--pp-white); border-bottom: 1px solid var(--pp-border)">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2 cursor-pointer select-none" routerLink="/">
+      <span style="display: flex; gap: 3px; align-items: center">
+        <span
+          style="
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--pp-amber);
+            display: inline-block;
+          "
+        ></span>
+        <span
+          style="
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--pp-blue);
+            display: inline-block;
+            margin-left: -3px;
+          "
+        ></span>
+      </span>
+      <span class="font-semibold text-lg" style="color: var(--pp-text)">PeluPatas</span>
     </div>
 
-    <div class="hidden md:flex gap-8 font-medium text-gray-700">
-      <a routerLink="/" routerLinkActive="text-blue-500" class="hover:text-blue-500">
+    <div class="hidden md:flex gap-8">
+      <a
+        routerLink="/"
+        routerLinkActive="font-medium"
+        [routerLinkActiveOptions]="{ exact: true }"
+        style="font-size: 14px; color: var(--pp-text-soft); text-decoration: none"
+        class="hover:text-blue-600 transition-colors"
+      >
         Inicio
       </a>
-      <a href="#" class="hover:text-blue-500">
+      <a
+        href="#servicios"
+        style="font-size: 14px; color: var(--pp-text-soft); text-decoration: none"
+        class="hover:text-blue-600 transition-colors"
+      >
         Servicios
       </a>
-      <a href="#" class="hover:text-blue-500">
-        Dónde estamos
-      </a>
-      <a href="#" class="hover:text-blue-500">
+      <a
+        routerLink="/contacto"
+        style="font-size: 14px; color: var(--pp-text-soft); text-decoration: none"
+        class="hover:text-blue-600 transition-colors"
+      >
         Contacto
       </a>
     </div>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
       @if (!authService.isLoggedIn()) {
         <a
           routerLink="/login"
-          class="text-gray-700 hover:text-blue-500">
-          Login
+          style="font-size: 14px; color: var(--pp-text-soft); text-decoration: none"
+          class="hover:text-blue-600 transition-colors"
+        >
+          Entrar
         </a>
-        <a
-          routerLink="/register"
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Registrarse
+        <a routerLink="/register" class="pp-btn-primary" style="text-decoration: none">
+          Pide tu cita
         </a>
       } @else {
         <a
           routerLink="/dashboard"
-          class="text-gray-700 hover:text-blue-500">
-          Perfil
+          style="font-size: 14px; color: var(--pp-text-soft); text-decoration: none"
+          class="hover:text-blue-600 transition-colors"
+        >
+          Mi área
         </a>
         <button
           (click)="logout()"
-          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-          Logout
+          style="
+            background: transparent;
+            border: 1px solid var(--pp-blue-soft);
+            color: var(--pp-blue-dark);
+            font-size: 14px;
+            padding: 7px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+          "
+        >
+          Cerrar sesión
         </button>
       }
     </div>

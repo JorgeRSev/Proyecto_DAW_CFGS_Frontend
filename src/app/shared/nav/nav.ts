@@ -6,10 +6,9 @@ import { AuthService } from '../../services/auth/auth.service';
   selector: 'app-nav',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './nav.html'
+  templateUrl: './nav.html',
 })
 export class Nav {
-
   user: any = null;
 
   constructor(public authService: AuthService) {}

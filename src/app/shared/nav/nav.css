@@ -7,7 +7,9 @@
   background: white;
 }
 
-.left, .center, .right {
+.left,
+.center,
+.right {
   display: flex;
   align-items: center;
   gap: 15px;
