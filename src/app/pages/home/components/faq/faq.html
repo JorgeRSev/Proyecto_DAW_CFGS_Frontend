@@ -1,25 +1,55 @@
-<section class="py-16">
+<section style="background: var(--pp-blue-bg); padding: 5rem 0">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <span class="pp-badge pp-badge-blue" style="margin-bottom: 0.75rem; display: inline-block">
+        FAQ
+      </span>
+      <h2 class="text-3xl font-bold" style="color: var(--pp-text)">Preguntas frecuentes</h2>
+    </div>
 
-  <h2 class="text-3xl font-bold text-center mb-10">
-    Preguntas frecuentes
-  </h2>
+    <div class="space-y-3">
+      @for (faq of faqs; track faq.question) {
+        <details class="pp-card" style="cursor: pointer">
+          <summary
+            style="
+              font-size: 15px;
+              font-weight: 500;
+              color: var(--pp-text);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              list-style: none;
+              padding: 2px 0;
+            "
+          >
+            {{ faq.question }}
+            <span
+              style="
+                color: var(--pp-blue);
+                font-size: 20px;
+                font-weight: 300;
+                line-height: 1;
+                margin-left: 1rem;
+                flex-shrink: 0;
+              "
+              >+</span
+            >
+          </summary>
 
-  <div class="max-w-3xl mx-auto space-y-4">
-
-    @for (faq of faqs; track faq.question) {
-      <details class="bg-white p-4 rounded-lg shadow cursor-pointer">
-
-        <summary class="font-semibold">
-          {{ faq.question }}
-        </summary>
-
-        <p class="mt-2 text-gray-600">
-          {{ faq.answer }}
-        </p>
-
-      </details>
-    }
-
+          <p
+            style="
+              margin-top: 10px;
+              font-size: 14px;
+              color: var(--pp-text-soft);
+              line-height: 1.7;
+              border-top: 1px solid var(--pp-border);
+              padding-top: 10px;
+            "
+          >
+            {{ faq.answer }}
+          </p>
+        </details>
+      }
+    </div>
   </div>
-
 </section>
