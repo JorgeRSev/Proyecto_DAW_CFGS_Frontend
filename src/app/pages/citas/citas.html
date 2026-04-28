@@ -1,32 +1,64 @@
 <div class="p-6 space-y-6">
-
   <div>
     <h1 class="text-2xl font-bold">Mis citas</h1>
-    <p class="text-gray-600">Gestiona tus próximas citas con PeluPatas</p>
+    <p class="text-gray-600">Historial de citas de tus mascotas en PeluPatas</p>
   </div>
 
-  <div class="grid gap-4">
-    @for (cita of citas; track cita.fecha) {
-      <div class="bg-white p-5 rounded shadow flex justify-between items-center">
-        <div>
-          <p class="font-semibold">
-            🐾 {{ cita.mascota }}
-          </p>
+  @if (cargando) {
+    <div class="flex items-center gap-3 text-gray-500 py-8">
+      <svg
+        class="animate-spin h-5 w-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+      </svg>
+      Cargando tus citas...
+    </div>
+  }
 
-          <p class="text-gray-600">
-            📅 {{ cita.fecha }} - 🕒 {{ cita.hora }}
-          </p>
+  @if (!cargando && error) {
+    <div
+      class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded flex justify-between items-center"
+    >
+      <span>{{ error }}</span>
+      <button (click)="cargarCitas()" class="text-sm underline hover:no-underline">
+        Reintentar
+      </button>
+    </div>
+  }
+
+  @if (!cargando && !error && citas.length === 0) {
+    <div class="bg-white rounded-lg shadow p-10 text-center text-gray-500">
+      <p class="text-4xl mb-3">🐾</p>
+      <p class="font-medium">Todavía no tienes citas</p>
+      <p class="text-sm mt-1">Cuando reserves una cita aparecerá aquí</p>
+    </div>
+  }
+
+  @if (!cargando && !error && citas.length > 0) {
+    <div class="grid gap-4">
+      @for (cita of citas; track cita.id) {
+        <div class="bg-white p-5 rounded-lg shadow flex justify-between items-center">
+          <div class="space-y-1">
+            <p class="font-semibold text-gray-800">
+              {{ cita.mascota }}
+            </p>
+            <p class="text-gray-500 text-sm">
+              {{ cita.fecha | date: 'dd/MM/yyyy' }} &middot; {{ cita.hora | slice: 0 : 5 }}
+            </p>
+            @if (cita.notas) {
+              <p class="text-gray-400 text-xs italic">{{ cita.notas }}</p>
+            }
+          </div>
+
+          <span [class]="getBadgeClasses(cita.estado)">
+            {{ cita.estado }}
+          </span>
         </div>
-        <span
-          class="px-3 py-1 rounded text-sm"
-          [class.bg-green-100]="cita.estado === 'Confirmada'"
-          [class.text-green-700]="cita.estado === 'Confirmada'"
-          [class.bg-yellow-100]="cita.estado === 'Pendiente'"
-          [class.text-yellow-700]="cita.estado === 'Pendiente'"
-        >
-          {{ cita.estado }}
-        </span>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  }
 </div>
