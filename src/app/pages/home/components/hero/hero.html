@@ -1,20 +1,70 @@
 <section
-  class="h-[80vh] w-full bg-cover bg-center flex items-center justify-center text-white"
-  style="background-image: url('/assets/hero.jpg')"
+  style="
+    background: linear-gradient(135deg, var(--pp-amber-bg) 0%, var(--pp-blue-bg) 100%);
+    padding: 5rem 1.5rem;
+  "
 >
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10">
+    <div class="flex-1">
+      <span class="pp-badge pp-badge-amber" style="margin-bottom: 1rem; display: inline-block">
+        🐾 Peluquería canina profesional
+      </span>
 
-  <div class="text-center bg-black/60 p-8 rounded-xl max-w-xl">
+      <h1
+        class="text-4xl md:text-5xl font-bold leading-tight mb-4"
+        style="color: var(--pp-blue-navy)"
+      >
+        Tu peludo se merece<br />verse y sentirse bien
+      </h1>
 
-    <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-      Tu peludo se merece verse y sentirse bien
-    </h1>
+      <p
+        class="text-lg mb-8"
+        style="color: var(--pp-text-soft); max-width: 480px; line-height: 1.7"
+      >
+        Reserva tu cita en segundos. Cuidamos a tu mascota con cariño, profesionalidad y mucho mimo.
+      </p>
 
-    <button
-      (click)="goToBooking()"
-      class="mt-4 bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition">
-      Pide tu cita
-    </button>
+      <div class="flex gap-3 flex-wrap">
+        <button
+          (click)="goToBooking()"
+          class="pp-btn-primary"
+          style="font-size: 15px; padding: 11px 26px"
+        >
+          Pide tu cita
+        </button>
+        <a
+          href="#servicios"
+          class="pp-btn-outline"
+          style="font-size: 15px; padding: 11px 26px; text-decoration: none"
+        >
+          Ver servicios ↓
+        </a>
+      </div>
+    </div>
 
+    <div
+      class="hidden md:flex items-center justify-center flex-shrink-0"
+      style="
+        width: 240px;
+        height: 200px;
+        background: var(--pp-blue-bg);
+        border-radius: 24px;
+        border: 1px solid var(--pp-border);
+      "
+    >
+      <svg
+        width="110"
+        height="110"
+        viewBox="0 0 110 110"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M55 22 C55 22 49 16 49 20 C49 22.5 55 28 55 28 C55 28 61 22.5 61 20 C61 16 55 22 55 22Z"
+          fill="#EF9F27"
+          opacity=".9"
+        />
+      </svg>
+    </div>
   </div>
-
 </section>

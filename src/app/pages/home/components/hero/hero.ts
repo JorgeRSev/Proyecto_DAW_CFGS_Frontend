@@ -4,10 +4,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-hero',
   standalone: true,
-  templateUrl: './hero.html'
+  templateUrl: './hero.html',
 })
 export class Hero {
-
   constructor(private router: Router) {}
 
   goToBooking() {
