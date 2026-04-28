@@ -6,28 +6,28 @@ import { Card } from '../../../../shared/components/card/card';
   selector: 'app-packages',
   standalone: true,
   imports: [Card],
-  templateUrl: './packages.html'
+  templateUrl: './packages.html',
 })
 export class Packages {
-
   constructor(private router: Router) {}
 
   packages = [
     {
       title: 'Básico',
       price: '20€',
-      features: ['Baño', 'Secado']
+      features: ['Baño', 'Secado'],
     },
     {
       title: 'Premium',
       price: '35€',
-      features: ['Baño', 'Corte', 'Uñas']
+      features: ['Baño', 'Corte', 'Uñas'],
+      popular: true,
     },
     {
       title: 'VIP',
       price: '50€',
-      features: ['Todo incluido']
-    }
+      features: ['Todo incluido'],
+    },
   ];
 
   goToBooking() {
