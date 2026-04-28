@@ -1,90 +1,160 @@
-<div class="flex h-screen bg-gray-100">
-
-  <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
-
+<div class="flex h-screen" style="background: var(--pp-blue-bg)">
+  <aside
+    style="
+      width: 220px;
+      background: var(--pp-white);
+      border-right: 1px solid var(--pp-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    "
+  >
     <div>
-      <div class="p-6 font-bold text-xl border-b">
-        PeluPatas
+      <div
+        style="
+          padding: 1.25rem 1.25rem 1rem;
+          border-bottom: 1px solid var(--pp-border);
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        "
+      >
+        <span
+          style="
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--pp-amber);
+            display: inline-block;
+          "
+        ></span>
+        <span
+          style="
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--pp-blue);
+            display: inline-block;
+            margin-left: -3px;
+          "
+        ></span>
+        <span style="font-size: 16px; font-weight: 600; color: var(--pp-text); margin-left: 4px"
+          >PeluPatas</span
+        >
       </div>
 
-      <nav class="p-4 space-y-3 text-gray-700">
-        <a routerLink="/dashboard" class="block hover:text-blue-500">
-          Dashboard
+      <div style="padding: 1rem 1.25rem 0.5rem">
+        <p style="font-size: 12px; color: var(--pp-text-muted)">Bienvenido,</p>
+        <p style="font-size: 14px; font-weight: 600; color: var(--pp-text)">
+          {{ user?.nombre || user?.email }}
+        </p>
+      </div>
+
+      <nav style="padding: 0.5rem 0.75rem; display: flex; flex-direction: column; gap: 2px">
+        <a routerLink="pedir-cita" routerLinkActive="active-nav-link" class="nav-link-item">
+          <span style="font-size: 16px">📅</span>
+          Pedir cita
         </a>
-        <a routerLink="/citas" class="block hover:text-blue-500">
+
+        <a routerLink="citas" routerLinkActive="active-nav-link" class="nav-link-item">
+          <span style="font-size: 16px">🐾</span>
           Mis citas
         </a>
-        <a routerLink="/mascotas" class="block hover:text-blue-500">
+
+        <a routerLink="mascotas" routerLinkActive="active-nav-link" class="nav-link-item">
+          <span style="font-size: 16px">🐶</span>
           Mis mascotas
         </a>
-        <a routerLink="/calendario" class="block hover:text-blue-500">
-          Calendario
-        </a>
-        <a routerLink="/perfil" class="block hover:text-blue-500">
-          Perfil
+
+        <a routerLink="perfil" routerLinkActive="active-nav-link" class="nav-link-item">
+          <span style="font-size: 16px">👤</span>
+          Mi perfil
         </a>
       </nav>
     </div>
 
-    <button
-      (click)="logout()"
-      class="m-4 bg-red-500 text-white py-2 rounded hover:bg-red-600">
-      Logout
-    </button>
+    <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--pp-border)">
+      <p
+        style="
+          font-size: 11px;
+          color: var(--pp-text-muted);
+          margin-bottom: 8px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        "
+      >
+        {{ user?.email }}
+      </p>
+      <button
+        (click)="logout()"
+        style="
+          width: 100%;
+          padding: 8px;
+          font-size: 13px;
+          border-radius: 8px;
+          cursor: pointer;
+          background: transparent;
+          border: 1px solid var(--pp-blue-soft);
+          color: var(--pp-blue-dark);
+          transition: all 0.15s;
+        "
+      >
+        Cerrar sesión
+      </button>
+    </div>
   </aside>
 
-  <div class="flex-1 flex flex-col">
-    <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-      <h2 class="font-semibold text-gray-700">
-        Dashboard
-      </h2>
-      <div class="text-sm text-gray-600">
-        👋 {{ user?.email }}
-      </div>
-    </header>
-
-    <main class="p-6 space-y-6 overflow-y-auto">
-      <div class="bg-white p-6 rounded-lg shadow">
-        <h1 class="text-2xl font-bold">
-          Hola, {{ user?.email }} 👋
-        </h1>
-        <p class="text-gray-600 mt-2">
-          Aquí puedes gestionar tus citas y tus mascotas.
+  <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden">
+    <header
+      style="
+        background: var(--pp-white);
+        border-bottom: 1px solid var(--pp-border);
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      "
+    >
+      <div>
+        <h2 style="font-size: 16px; font-weight: 600; color: var(--pp-text)">
+          Hola, {{ user?.nombre || user?.email }}
+        </h2>
+        <p style="font-size: 12px; color: var(--pp-text-muted)">
+          Gestiona tus citas y mascotas desde aquí
         </p>
       </div>
+      <span class="pp-badge pp-badge-blue">Cliente</span>
+    </header>
 
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white p-5 rounded shadow">
-          <p class="text-gray-500">Próximas citas</p>
-          <p class="text-2xl font-bold">0</p>
-        </div>
-
-        <div class="bg-white p-5 rounded shadow">
-          <p class="text-gray-500">Mascotas</p>
-          <p class="text-2xl font-bold">0</p>
-        </div>
-
-        <div class="bg-white p-5 rounded shadow">
-          <p class="text-gray-500">Última visita</p>
-          <p class="text-2xl font-bold">-</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded shadow">
-        <h3 class="font-semibold mb-4">Acciones rápidas</h3>
-        <div class="flex gap-4">
-          <button
-            (click)="goToBooking()"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Pedir cita
-          </button>
-
-          <button
-            class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
-            Añadir mascota
-          </button>
-        </div>
-      </div>
+    <main style="flex: 1; overflow-y: auto">
+      <router-outlet></router-outlet>
     </main>
   </div>
 </div>
+
+<style>
+  .nav-link-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--pp-text-soft);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .nav-link-item:hover {
+    background: var(--pp-blue-bg);
+    color: var(--pp-blue-dark);
+  }
+  .active-nav-link {
+    background: var(--pp-blue-bg) !important;
+    color: var(--pp-blue-navy) !important;
+    font-weight: 600;
+    border-right: 3px solid var(--pp-blue);
+    border-radius: 8px 0 0 8px;
+  }
+</style>

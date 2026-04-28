@@ -7,10 +7,9 @@ import { AuthService } from '../../services/auth/auth.service';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  styleUrl: './dashboard.css',
 })
 export class Dashboard {
-
   user: any;
 
   constructor(private authService: AuthService) {
@@ -19,8 +18,5 @@ export class Dashboard {
 
   logout() {
     this.authService.logout();
-  }
-
-  goToBooking() {
   }
 }
