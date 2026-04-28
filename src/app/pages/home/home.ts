@@ -8,6 +8,6 @@ import { Faq } from './components/faq/faq';
   standalone: true,
   imports: [Hero, Packages, Faq],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrl: './home.css',
 })
 export class Home {}
