@@ -1,0 +1,192 @@
+<div class="p-6 space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Mis mascotas</h1>
+      <p class="text-gray-500 text-sm mt-1">Mascotas registradas en tu cuenta</p>
+    </div>
+    <button
+      (click)="abrirModalNueva()"
+      class="flex items-center gap-2 bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+    >
+      <span class="text-base leading-none">+</span>
+      Añadir mascota
+    </button>
+  </div>
+
+  @if (cargando) {
+    <div class="flex items-center gap-3 text-gray-400 py-8">
+      <svg
+        class="animate-spin h-5 w-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+      </svg>
+      Cargando mascotas...
+    </div>
+  }
+
+  @if (!cargando && error) {
+    <div
+      class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded flex justify-between"
+    >
+      <span>{{ error }}</span>
+      <button (click)="cargarMascotas()" class="text-sm underline">Reintentar</button>
+    </div>
+  }
+
+  @if (!cargando && !error && mascotas.length === 0) {
+    <div class="bg-white rounded-lg shadow p-10 text-center text-gray-400">
+      <p class="text-4xl mb-3">🐶</p>
+      <p class="font-medium">Todavía no tienes mascotas registradas</p>
+      <p class="text-sm mt-1">Pulsa el botón "Añadir mascota" para registrar a tu peludo</p>
+    </div>
+  }
+
+  @if (!cargando && !error && mascotas.length > 0) {
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (mascota of mascotas; track mascota.id) {
+        <div class="bg-white rounded-xl shadow p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold shrink-0"
+              >
+                {{ mascota.nombre.charAt(0).toUpperCase() }}
+              </div>
+              <div>
+                <p class="font-semibold text-gray-800">{{ mascota.nombre }}</p>
+                <p class="text-sm text-gray-500">{{ mascota.raza }}</p>
+              </div>
+            </div>
+            <button
+              (click)="abrirModalEditar(mascota)"
+              title="Editar mascota"
+              class="text-gray-400 hover:text-blue-500 transition-colors p-1"
+            >
+              ✏️
+            </button>
+          </div>
+
+          <div class="border-t pt-3 text-sm space-y-1">
+            <div>
+              <p class="text-gray-400 text-xs">Edad</p>
+              <p class="font-medium">
+                {{ mascota.edad }} {{ mascota.edad === 1 ? 'año' : 'años' }}
+              </p>
+            </div>
+            @if (mascota.observaciones) {
+              <div>
+                <p class="text-gray-400 text-xs">Observaciones</p>
+                <p class="italic text-gray-600">{{ mascota.observaciones }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (modalAbierto) {
+  <div
+    class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+    (click)="cerrarModal()"
+  >
+    <div
+      class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-lg">{{ tituloModal }}</h2>
+        <button
+          (click)="cerrarModal()"
+          class="text-gray-400 hover:text-gray-700 text-xl leading-none"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            Nombre <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="formNombre"
+            name="formNombre"
+            placeholder="Ej: Toby"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            Raza <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="formRaza"
+            name="formRaza"
+            placeholder="Ej: Golden Retriever"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            Edad (años) <span class="text-red-400">*</span>
+          </label>
+          <input
+            type="number"
+            [(ngModel)]="formEdad"
+            name="formEdad"
+            min="0"
+            max="30"
+            placeholder="Ej: 3"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            Observaciones <span class="text-gray-400">(opcional)</span>
+          </label>
+          <textarea
+            [(ngModel)]="formObservaciones"
+            name="formObservaciones"
+            rows="2"
+            placeholder="Alergias, carácter, indicaciones especiales..."
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+          </textarea>
+        </div>
+      </div>
+
+      @if (errorModal) {
+        <p class="text-red-600 text-sm bg-red-50 px-3 py-2 rounded">
+          {{ errorModal }}
+        </p>
+      }
+
+      <div class="flex gap-3 pt-1">
+        <button
+          (click)="cerrarModal()"
+          class="flex-1 border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="guardar()"
+          [disabled]="guardando"
+          class="flex-1 bg-blue-500 text-white rounded-lg py-2 text-sm font-medium hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ guardando ? 'Guardando...' : mascotaEditando ? 'Guardar cambios' : 'Añadir mascota' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
