@@ -1,0 +1,217 @@
+<div class="p-6 space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Calendario de citas</h1>
+      <p class="text-gray-500 text-sm mt-1">Haz clic en un día para añadir una cita</p>
+    </div>
+
+    <div class="flex rounded-lg border border-gray-200 overflow-hidden text-sm">
+      <button
+        (click)="cambiarVista('dayGridMonth')"
+        [class.bg-green-600]="vistaActual === 'dayGridMonth'"
+        [class.text-white]="vistaActual === 'dayGridMonth'"
+        [class.text-gray-600]="vistaActual !== 'dayGridMonth'"
+        class="px-4 py-2 hover:bg-gray-50 transition-colors"
+      >
+        Mes
+      </button>
+      <button
+        (click)="cambiarVista('timeGridWeek')"
+        [class.bg-green-600]="vistaActual === 'timeGridWeek'"
+        [class.text-white]="vistaActual === 'timeGridWeek'"
+        [class.text-gray-600]="vistaActual !== 'timeGridWeek'"
+        class="px-4 py-2 border-l border-gray-200 hover:bg-gray-50 transition-colors"
+      >
+        Semana
+      </button>
+    </div>
+  </div>
+
+  <div class="flex gap-4 text-xs text-gray-600 flex-wrap">
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> Pendiente
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Confirmada
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Cancelada
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Completada
+    </span>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-4">
+    <full-calendar #calendario [options]="calendarOptions()"></full-calendar>
+  </div>
+</div>
+
+@if (citaDetalle) {
+  <div class="fixed inset-0 z-40 flex justify-end" (click)="cerrarDetalle()">
+    <div
+      class="relative bg-white w-80 h-full shadow-2xl p-6 space-y-4 overflow-y-auto"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-lg">Detalle de cita</h2>
+        <button (click)="cerrarDetalle()" class="text-gray-400 hover:text-gray-700 text-xl">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3 text-sm">
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Mascota</p>
+          <p class="font-medium">{{ citaDetalle.mascota }}</p>
+          @if (citaDetalle.raza) {
+            <p class="text-gray-400 text-xs">{{ citaDetalle.raza }}</p>
+          }
+        </div>
+
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Dueño</p>
+          <p>{{ citaDetalle.dueno ?? '—' }}</p>
+          @if (citaDetalle.telefono_dueno) {
+            <a
+              [href]="'tel:' + citaDetalle.telefono_dueno"
+              class="flex items-center gap-1 text-blue-500 hover:text-blue-700 font-medium mt-0.5"
+            >
+              📞 {{ citaDetalle.telefono_dueno }}
+            </a>
+          } @else {
+            <p class="text-gray-400 text-xs italic">Sin teléfono registrado</p>
+          }
+        </div>
+
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Fecha y hora</p>
+          <p>
+            {{ citaDetalle.fecha | date: 'dd/MM/yyyy' }} · {{ citaDetalle.hora | slice: 0 : 5 }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Peluquera asignada</p>
+          <p class="font-medium">{{ citaDetalle.peluquera }}</p>
+        </div>
+
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Estado</p>
+          <span [class]="getBadgeClasses(citaDetalle.estado)">{{ citaDetalle.estado }}</span>
+        </div>
+
+        @if (citaDetalle.notas) {
+          <div>
+            <p class="text-gray-400 text-xs uppercase tracking-wide">Notas</p>
+            <p class="italic text-gray-600">{{ citaDetalle.notas }}</p>
+          </div>
+        }
+      </div>
+
+      <button
+        (click)="cerrarDetalle()"
+        class="w-full mt-4 border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50"
+      >
+        Cerrar
+      </button>
+    </div>
+  </div>
+}
+
+@if (modalAbierto) {
+  <div
+    class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+    (click)="cerrarModal()"
+  >
+    <div
+      class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-lg">Nueva cita</h2>
+        <button (click)="cerrarModal()" class="text-gray-400 hover:text-gray-700 text-xl">✕</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Fecha</label>
+          <input
+            type="date"
+            [(ngModel)]="fechaSeleccionada"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+          />
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Hora</label>
+          <input
+            type="time"
+            [(ngModel)]="horaSeleccionada"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs text-gray-500 mb-1">Mascota</label>
+        @if (mascotas.length === 0) {
+          <p class="text-sm text-gray-400 italic">No hay mascotas registradas en el sistema</p>
+        } @else {
+          <select
+            [(ngModel)]="mascotaSeleccionada"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+          >
+            <option [ngValue]="null" disabled>Selecciona una mascota</option>
+            @for (m of mascotas; track m.id) {
+              <option [ngValue]="m.id">{{ m.nombre }} ({{ m.raza }}) — {{ m.dueno }}</option>
+            }
+          </select>
+        }
+      </div>
+      @if (peluqueras.length > 1) {
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Peluquera</label>
+          <select
+            [(ngModel)]="peluqueraSeleccionada"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+          >
+            @for (p of peluqueras; track p.id) {
+              <option [ngValue]="p.id">{{ p.nombre }}</option>
+            }
+          </select>
+        </div>
+      }
+
+      <div>
+        <label class="block text-xs text-gray-500 mb-1">Notas (opcional)</label>
+        <textarea
+          [(ngModel)]="notas"
+          rows="2"
+          placeholder="Indicaciones especiales, alergias..."
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-300"
+        >
+        </textarea>
+      </div>
+
+      @if (errorModal) {
+        <p class="text-red-600 text-sm bg-red-50 px-3 py-2 rounded">{{ errorModal }}</p>
+      }
+
+      <div class="flex gap-3 pt-1">
+        <button
+          (click)="cerrarModal()"
+          class="flex-1 border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="guardarCita()"
+          [disabled]="guardando"
+          class="flex-1 bg-green-600 text-white rounded-lg py-2 text-sm font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ guardando ? 'Guardando...' : 'Guardar cita' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
