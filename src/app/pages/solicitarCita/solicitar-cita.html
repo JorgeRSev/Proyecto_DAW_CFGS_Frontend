@@ -1,0 +1,219 @@
+<div class="p-6 space-y-4">
+  <div>
+    <h1 class="text-2xl font-bold">Pedir cita</h1>
+    <p class="text-gray-500 text-sm mt-1">
+      Haz clic en un día del calendario para solicitar tu cita
+    </p>
+  </div>
+
+  <div class="flex gap-4 text-xs text-gray-600 flex-wrap">
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span> Pendiente
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Confirmada
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Cancelada
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Completada
+    </span>
+  </div>
+
+  @if (error) {
+    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded text-sm">
+      {{ error }}
+    </div>
+  }
+
+  @if (!cargando && mascotas.length === 0) {
+    <div
+      class="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded text-sm flex gap-2 items-start"
+    >
+      <span>
+        No tienes mascotas registradas. Ve a
+        <a routerLink="../mascotas" class="underline font-medium">Mis mascotas</a>
+        para añadir a tu peludo antes de pedir cita.
+      </span>
+    </div>
+  }
+
+  <div class="bg-white rounded-lg shadow p-4">
+    <full-calendar #calendario [options]="calendarOptions()"></full-calendar>
+  </div>
+</div>
+
+@if (citaDetalle) {
+  <div class="fixed inset-0 z-40 flex justify-end" (click)="cerrarDetalle()">
+    <div
+      class="relative bg-white w-80 h-full shadow-2xl p-6 space-y-4 overflow-y-auto"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-lg">Detalle de cita</h2>
+        <button (click)="cerrarDetalle()" class="text-gray-400 hover:text-gray-700 text-xl">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3 text-sm">
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Mascota</p>
+          <p class="font-medium">{{ citaDetalle.mascota }}</p>
+        </div>
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Fecha y hora</p>
+          <p>
+            {{ citaDetalle.fecha | date: 'dd/MM/yyyy' }} · {{ citaDetalle.hora | slice: 0 : 5 }}
+          </p>
+        </div>
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Peluquera</p>
+          <p>{{ citaDetalle.peluquera }}</p>
+        </div>
+        <div>
+          <p class="text-gray-400 text-xs uppercase tracking-wide">Estado</p>
+          <span [class]="getBadgeClasses(citaDetalle.estado)">{{ citaDetalle.estado }}</span>
+        </div>
+        @if (citaDetalle.notas) {
+          <div>
+            <p class="text-gray-400 text-xs uppercase tracking-wide">Notas</p>
+            <p class="italic text-gray-600">{{ citaDetalle.notas }}</p>
+          </div>
+        }
+      </div>
+
+      <button
+        (click)="cerrarDetalle()"
+        class="w-full border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50"
+      >
+        Cerrar
+      </button>
+    </div>
+  </div>
+}
+
+@if (modalAbierto) {
+  <div
+    class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+    (click)="cerrarModal()"
+  >
+    <div
+      class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="font-bold text-lg">Solicitar cita</h2>
+          <p class="text-sm text-gray-500">{{ fechaFormateada }}</p>
+        </div>
+        <button (click)="cerrarModal()" class="text-gray-400 hover:text-gray-700 text-xl">✕</button>
+      </div>
+
+      <div>
+        <label class="block text-xs text-gray-500 mb-1">
+          ¿Para qué mascota? <span class="text-red-400">*</span>
+        </label>
+        @if (mascotas.length === 0) {
+          <p class="text-sm text-amber-600 italic">
+            No tienes mascotas.
+            <a routerLink="../mascotas" (click)="cerrarModal()" class="underline">Añade una aquí</a
+            >.
+          </p>
+        } @else {
+          <select
+            [(ngModel)]="mascotaSeleccionada"
+            name="mascotaSeleccionada"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            <option [ngValue]="null" disabled>Selecciona una mascota</option>
+            @for (m of mascotas; track m.id) {
+              <option [ngValue]="m.id">{{ m.nombre }} ({{ m.raza }})</option>
+            }
+          </select>
+        }
+      </div>
+
+      <div>
+        <label class="block text-xs text-gray-500 mb-2">
+          Elige una hora <span class="text-red-400">*</span>
+        </label>
+        <div class="grid grid-cols-4 gap-2">
+          @for (hora of horasDisponibles; track hora) {
+            <button
+              (click)="horaSeleccionada = hora"
+              [class.bg-blue-500]="horaSeleccionada === hora"
+              [class.text-white]="horaSeleccionada === hora"
+              [class.border-blue-500]="horaSeleccionada === hora"
+              [class.text-gray-700]="horaSeleccionada !== hora"
+              class="border border-gray-200 rounded-lg py-1.5 text-xs font-medium transition-colors hover:border-blue-300"
+            >
+              {{ hora }}
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (peluqueras.length > 1) {
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Peluquera</label>
+          <select
+            [(ngModel)]="peluqueraSeleccionada"
+            name="peluqueraSeleccionada"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            <option [ngValue]="null" disabled>Selecciona una peluquera</option>
+            @for (p of peluqueras; track p.id) {
+              <option [ngValue]="p.id">{{ p.nombre }}</option>
+            }
+          </select>
+        </div>
+      }
+
+      @if (peluqueras.length === 1) {
+        <div class="text-sm text-gray-500">
+          Te atenderá <span class="font-medium text-gray-700">{{ peluqueras[0].nombre }}</span>
+        </div>
+      }
+
+      <div>
+        <label class="block text-xs text-gray-500 mb-1">
+          Notas <span class="text-gray-400">(opcional)</span>
+        </label>
+        <textarea
+          [(ngModel)]="notas"
+          name="notas"
+          rows="2"
+          placeholder="Ej: corte especial, primera vez, alergia a..."
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
+        >
+        </textarea>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-xs text-amber-700">
+        Tu cita quedará en estado <strong>pendiente</strong> hasta que la peluquería la confirme.
+      </div>
+
+      @if (errorModal) {
+        <p class="text-red-600 text-sm bg-red-50 px-3 py-2 rounded">{{ errorModal }}</p>
+      }
+
+      <div class="flex gap-3 pt-1">
+        <button
+          (click)="cerrarModal()"
+          class="flex-1 border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="solicitarCita()"
+          [disabled]="guardando || mascotas.length === 0"
+          class="flex-1 bg-blue-500 text-white rounded-lg py-2 text-sm font-medium hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ guardando ? 'Enviando...' : 'Solicitar cita' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
