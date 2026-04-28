@@ -1,0 +1,109 @@
+<div class="p-6 space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold">Estadísticas</h1>
+    <p class="text-gray-500 text-sm mt-1">Resumen general de la aplicación</p>
+  </div>
+
+  @if (cargando) {
+    <div class="flex items-center gap-3 text-gray-400 py-8">
+      <svg
+        class="animate-spin h-5 w-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+      </svg>
+      Cargando estadísticas...
+    </div>
+  }
+
+  @if (!cargando && error) {
+    <div
+      class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded flex justify-between"
+    >
+      <span>{{ error }}</span>
+      <button (click)="cargar()" class="text-sm underline">Reintentar</button>
+    </div>
+  }
+
+  @if (!cargando && stats) {
+    <div>
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+        Usuarios activos
+      </h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="bg-white rounded-xl shadow p-5">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Clientes</p>
+          <p class="text-3xl font-bold text-blue-600 mt-1">
+            {{ stats.usuarios.cliente ?? 0 }}
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Peluqueras</p>
+          <p class="text-3xl font-bold text-green-600 mt-1">
+            {{ stats.usuarios.peluquera ?? 0 }}
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Admins</p>
+          <p class="text-3xl font-bold text-gray-700 mt-1">
+            {{ stats.usuarios.admin ?? 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Citas</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-yellow-400">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Pendientes</p>
+          <p class="text-3xl font-bold text-yellow-500 mt-1">
+            {{ stats.citas.pendiente ?? 0 }}
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-green-400">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Confirmadas</p>
+          <p class="text-3xl font-bold text-green-600 mt-1">
+            {{ stats.citas.confirmada ?? 0 }}
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-blue-400">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Completadas</p>
+          <p class="text-3xl font-bold text-blue-600 mt-1">
+            {{ stats.citas.completada ?? 0 }}
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-red-400">
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Canceladas</p>
+          <p class="text-3xl font-bold text-red-500 mt-1">
+            {{ stats.citas.cancelada ?? 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div class="bg-white rounded-xl shadow p-5">
+        <p class="text-xs text-gray-400 uppercase tracking-wide">Total citas registradas</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">
+          {{ sumar(stats.citas) }}
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-5">
+        <p class="text-xs text-gray-400 uppercase tracking-wide">Citas este mes</p>
+        <p class="text-3xl font-bold text-indigo-600 mt-1">
+          {{ stats.citas_este_mes }}
+        </p>
+      </div>
+    </div>
+  }
+</div>
