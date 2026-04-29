@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://proyectodawcfgsbackend-production.up.railway.app'
+  apiUrl: 'https://problem-swore-spiritism.ngrok-free.dev/api'
 };
