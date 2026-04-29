@@ -3,9 +3,9 @@ services:
     name: pelupatas-frontend
     runtime: static
 
-    buildCommand: cd pelupatas/frontend && npm install && npm run build -- --configuration production
+    buildCommand: npm install && npm run build -- --configuration production
 
-    staticPublishPath: pelupatas/frontend/dist/frontend/browser
+    staticPublishPath: dist/frontend/browser
 
     routes:
       - type: rewrite
