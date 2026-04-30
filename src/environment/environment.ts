@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://humanitarian-tagged-acts-annually.trycloudflare.com/api'
+  apiUrl: 'https://permission-stockings-rico-aspect.trycloudflare.com/api'
 };
