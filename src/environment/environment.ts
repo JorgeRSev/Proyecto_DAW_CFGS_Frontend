@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://boolean-symptoms-crimes-standing.trycloudflare.com/api'
+  apiUrl: 'https://humanitarian-tagged-acts-annually.trycloudflare.com/api'
 };
