@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://problem-swore-spiritism.ngrok-free.dev/api'
+  apiUrl: 'https://stickers-spot-dale-jose.trycloudflare.com/api'
 };
 
 //probando

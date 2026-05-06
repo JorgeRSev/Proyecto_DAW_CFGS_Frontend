@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://permission-stockings-rico-aspect.trycloudflare.com/api'
+  apiUrl: 'https://stickers-spot-dale-jose.trycloudflare.com/api'
 };
