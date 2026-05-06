@@ -26,7 +26,7 @@ export class Packages {
     {
       title: 'VIP',
       price: '50€',
-      features: ['Todo incluido'],
+      features: ['Baño', 'Corte', 'Uñas', 'Orejas', 'Glándulas', 'Ozono'],
     },
   ];
 
