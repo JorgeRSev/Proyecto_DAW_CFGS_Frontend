@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://stickers-spot-dale-jose.trycloudflare.com/api'
+  apiUrl: 'https://oils-both-incentive-somebody.trycloudflare.com/api'
 };
 
 //probando
